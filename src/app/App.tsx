@@ -1,8 +1,6 @@
 import './styles/index.scss';
-import { Link, Route, Routes } from 'react-router-dom';
-import { AboutPage, MainPage } from '../pages';
-import { Suspense } from 'react';
-import { useTheme } from './providers/ThemeProvider/lib/useTheme';
+import { Link } from 'react-router-dom';
+import { useTheme, AppRouter } from './providers';
 import { classNames } from '../shared/lib/classNames/classNames';
 
 const App = () => {
@@ -13,12 +11,7 @@ const App = () => {
 			<button onClick={toggleTheme}>TOGGLE THEME</button>
 			<Link to={'/'}>Главная</Link>
 			<Link to={'/about'}>О сайте</Link>
-			<Suspense fallback={<div>Loading...</div>}>
-				<Routes>
-					<Route path={'/'} element={<MainPage />} />
-					<Route path={'/about'} element={<AboutPage />} />
-				</Routes>
-			</Suspense>
+			<AppRouter />
 		</div>
 	);
 };
