@@ -12,7 +12,6 @@ interface NavbarProps {
 export const Navbar = ({ className }: NavbarProps) => {
 	return (
 		<div className={classNames(styles.navbar, {}, [className])}>
-			<ThemeSwicher />
 			<div className={styles.links}>
 				<AppLink theme={AppLinkTheme.SECONDARY} to={'/'}>
 					Главная

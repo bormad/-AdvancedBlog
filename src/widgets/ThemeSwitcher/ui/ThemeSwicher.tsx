@@ -3,7 +3,6 @@ import { classNames } from '../../../shared/lib/classNames/classNames';
 import { useTheme } from '../../../app/providers';
 import LightIcon from '../../../shared/assets/icons/theme-light.svg';
 import DarkIcon from '../../../shared/assets/icons/theme-dark.svg';
-import UserIcon from '../../../shared/assets/icons/user-32-32.png';
 import { Theme } from '../../../app/providers/ThemeProvider/lib/ThemeContext';
 import { Button } from '../../../shared/ui';
 import { ThemeButton } from '../../../shared/ui/Button/Button';
