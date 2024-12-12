@@ -1,9 +1,7 @@
 import styles from './Navbar.module.scss';
 import { classNames } from '../../../shared/lib/classNames/classNames';
-import { useTheme } from '../../../app/providers';
 import { AppLink } from '../../../shared/ui';
 import { AppLinkTheme } from '../../../shared/ui/AppLink/AppLink';
-import { ThemeSwicher } from '../../ThemeSwitcher';
 
 interface NavbarProps {
 	className?: string;

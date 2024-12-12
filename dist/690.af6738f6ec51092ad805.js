@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkulbiblog=self.webpackChunkulbiblog||[]).push([[690],{690:(e,u,l)=>{l.r(u),l.d(u,{default:()=>i});var n=l(848);const i=function(){return(0,n.jsx)("div",{children:"MainPage"})}}}]);
