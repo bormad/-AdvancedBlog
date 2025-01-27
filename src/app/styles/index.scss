@@ -3,12 +3,14 @@
 @import url('./themes/dark.scss');
 @import url('./themes/normal.scss');
 
-.app {
+body {
 	font: var(--font-m);
+	color: var(--primary-color);
+}
 
+.app {
 	background-color: var(--bg-color);
 	color: var(--primary-color);
-
 	min-height: 100vh;
 }
 
