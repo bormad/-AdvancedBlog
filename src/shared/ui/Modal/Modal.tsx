@@ -55,6 +55,12 @@ export const Modal = (props: ModalProps) => {
 		e.stopPropagation();
 	};
 
+	const onOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
+		if (e.target === e.currentTarget) {
+			closeHandler();
+		}
+	};
+
 	const onKeyDown = useCallback(
 		(e: KeyboardEvent) => {
 			if (e.key === 'Escape') {
@@ -80,7 +86,7 @@ export const Modal = (props: ModalProps) => {
 	return (
 		<Portal>
 			<div className={classNames(styles.modal, mods, [className, theme])}>
-				<div className={styles.overlay} onClick={closeHandler}>
+				<div className={styles.overlay} onClick={onOverlayClick}>
 					<div className={styles.content} onClick={onContentClick}>
 						{children}
 					</div>
