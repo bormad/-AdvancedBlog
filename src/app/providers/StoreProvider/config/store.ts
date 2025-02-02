@@ -1,21 +1,34 @@
-import { configureStore, ReducersMapObject } from '@reduxjs/toolkit';
-import { StateSchema } from './StateSchema';
+import {
+	configureStore,
+	ReducersMapObject,
+	ThunkDispatch,
+	UnknownAction
+} from '@reduxjs/toolkit';
+import { ReduxStoreWithManager, StateSchema } from './StateSchema';
 import { counterReducer } from '../../../../entities/Counter/model/slice/counterSlice';
 import { userReducer } from '../../../../entities/User';
-import { loginReducer } from '../../../../features/AuthByUsername';
+import { createReducerManager } from './reducerManager';
 
-export function cheateReduxStore(initialState?: StateSchema) {
+export function createReduxStore(initialState?: StateSchema) {
 	const rootReducers: ReducersMapObject<StateSchema> = {
 		counter: counterReducer,
-		user: userReducer,
-		loginForm: loginReducer
+		user: userReducer
 	};
 
-	return configureStore<StateSchema>({
-		reducer: rootReducers,
+	const reducerManager = createReducerManager(rootReducers);
+
+	const store = configureStore<StateSchema>({
+		reducer: reducerManager.reduce,
 		preloadedState: initialState
-	});
+	}) as ReduxStoreWithManager;
+
+	store.reducerManager = reducerManager;
+
+	return store;
 }
 
-export type RootState = ReturnType<typeof cheateReduxStore>['getState'];
-export type AppDispatch = ReturnType<typeof cheateReduxStore>['dispatch'];
+export type RootState = ReturnType<
+	ReturnType<typeof createReduxStore>['getState']
+>;
+
+export type AppDispatch = ThunkDispatch<RootState, undefined, UnknownAction>;
