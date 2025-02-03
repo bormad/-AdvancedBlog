@@ -1,28 +1,31 @@
 import styles from './Sidebar.module.scss';
 import { classNames } from '../../../../shared/lib/classNames/classNames';
-import { useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { ThemeSwicher } from '../../../ThemeSwitcher';
 import {
 	Button,
 	ButtonSize,
 	ThemeButton
 } from '../../../../shared/ui/Button/Button';
-import { AppLink } from '../../../../shared/ui';
-import { AppLinkTheme } from '../../../../shared/ui/AppLink/AppLink';
-import { RoutePath } from '../../../../shared/config/routeConfig/routeConfig';
-import AboutIcon from '../../../../shared/assets/icons/about-20-20.svg';
-import MainIcon from '../../../../shared/assets/icons/main-20-20.svg';
+import { SidebarItem } from '../SidebarItem/SidebarItem';
+import { SidebarItemsList } from '../../module/items';
 
 interface SidebarProps {
 	className?: string;
 }
 
-export const Sidebar = ({ className }: SidebarProps) => {
+export const Sidebar = memo(({ className }: SidebarProps) => {
 	const [collapsed, setCollapsed] = useState(false);
 
 	const onToggle = () => {
 		setCollapsed((prev) => !prev);
 	};
+
+	const itemList = useMemo(() => {
+		return SidebarItemsList.map((item) => (
+			<SidebarItem item={item} collapsed={collapsed} key={item.path} />
+		));
+	}, [collapsed]);
 
 	return (
 		<div
@@ -41,27 +44,12 @@ export const Sidebar = ({ className }: SidebarProps) => {
 			>
 				{collapsed ? '>' : '<'}
 			</Button>
-			<div className={styles.items}>
-				<AppLink
-					className={styles.item}
-					theme={AppLinkTheme.SECONDARY}
-					to={RoutePath.main}
-				>
-					<MainIcon className={styles.icon} />
-					<span className={styles.link}>Главная</span>
-				</AppLink>
-				<AppLink
-					className={styles.item}
-					theme={AppLinkTheme.SECONDARY}
-					to={RoutePath.about}
-				>
-					<AboutIcon className={styles.icon} />
-					<span className={styles.link}>О сайте</span>
-				</AppLink>
-			</div>
+			{itemList}
 			<div className={styles.switchers}>
 				<ThemeSwicher />
 			</div>
 		</div>
 	);
-};
+});
+
+Sidebar.displayName = 'Sidebar';

@@ -6,12 +6,13 @@ import DarkIcon from '../../../shared/assets/icons/theme-dark.svg';
 import { Theme } from '../../../app/providers/ThemeProvider/lib/ThemeContext';
 import { Button } from '../../../shared/ui';
 import { ThemeButton } from '../../../shared/ui/Button/Button';
+import { memo } from 'react';
 
 interface ThemeSwicherProps {
 	className?: string;
 }
 
-export const ThemeSwicher = ({ className }: ThemeSwicherProps) => {
+export const ThemeSwicher = memo(({ className }: ThemeSwicherProps) => {
 	const { theme, toggleTheme } = useTheme();
 
 	return (
@@ -23,4 +24,6 @@ export const ThemeSwicher = ({ className }: ThemeSwicherProps) => {
 			{theme === Theme.DARK ? <DarkIcon /> : <LightIcon />}
 		</Button>
 	);
-};
+});
+
+ThemeSwicher.displayName = 'ThemeSwicher';

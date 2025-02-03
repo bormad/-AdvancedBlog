@@ -19,12 +19,13 @@ import {
 
 interface LoginFormProps {
 	className?: string;
+	onSuccess: () => void;
 }
 const initialReducers: ReducersList = {
 	loginForm: loginReducer
 };
 
-const LoginForm = memo(({ className }: LoginFormProps) => {
+const LoginForm = memo(({ className, onSuccess }: LoginFormProps) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const username = useSelector(getLoginUsername);
 	const password = useSelector(getLoginPassword);
@@ -46,11 +47,14 @@ const LoginForm = memo(({ className }: LoginFormProps) => {
 	);
 
 	const onLoginClick = useCallback(
-		(event: React.FormEvent) => {
+		async (event: React.FormEvent) => {
 			event.preventDefault();
-			dispatch(loginByUsername({ username, password }));
+			const result = await dispatch(loginByUsername({ username, password }));
+			if (result.meta.requestStatus === 'fulfilled') {
+				onSuccess();
+			}
 		},
-		[dispatch, username, password]
+		[onSuccess, dispatch, username, password]
 	);
 
 	return (
