@@ -8,8 +8,15 @@ import { ReduxStoreWithManager, StateSchema } from './StateSchema';
 import { counterReducer } from '../../../../entities/Counter/model/slice/counterSlice';
 import { userReducer } from '../../../../entities/User';
 import { createReducerManager } from './reducerManager';
+import { $api } from '../../../../shared/api/api';
+import { NavigateOptions, To } from 'react-router-dom';
+import { Reducer } from '@reduxjs/toolkit';
+import { ThunkExtra } from '../../../../entities/Profile/model/services/fetchProfileData/fetchProfileData';
 
-export function createReduxStore(initialState?: StateSchema) {
+export function createReduxStore(
+	navigate?: (to: To, options?: NavigateOptions) => void | Promise<void>,
+	initialState?: StateSchema
+) {
 	const rootReducers: ReducersMapObject<StateSchema> = {
 		counter: counterReducer,
 		user: userReducer
@@ -17,10 +24,21 @@ export function createReduxStore(initialState?: StateSchema) {
 
 	const reducerManager = createReducerManager(rootReducers);
 
-	const store = configureStore<StateSchema>({
-		reducer: reducerManager.reduce,
-		preloadedState: initialState
-	}) as ReduxStoreWithManager;
+	const extraArgument: ThunkExtra = {
+		api: $api,
+		navigate
+	};
+
+	const store = configureStore({
+		reducer: reducerManager.reduce as Reducer<StateSchema>,
+		preloadedState: initialState,
+		middleware: (getDefaultMiddleware) =>
+			getDefaultMiddleware({
+				thunk: {
+					extraArgument
+				}
+			})
+	}) as unknown as ReduxStoreWithManager;
 
 	store.reducerManager = reducerManager;
 
@@ -31,4 +49,4 @@ export type RootState = ReturnType<
 	ReturnType<typeof createReduxStore>['getState']
 >;
 
-export type AppDispatch = ThunkDispatch<RootState, undefined, UnknownAction>;
+export type AppDispatch = ThunkDispatch<RootState, ThunkExtra, UnknownAction>;

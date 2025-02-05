@@ -11,7 +11,8 @@ export function createReducerManager(
 ): ReducerManager {
 	const reducers = { ...initialReducers };
 
-	let combinedReducer = combineReducers(reducers);
+	// Explicitly cast the combined reducer to match StateSchema
+	let combinedReducer = combineReducers(reducers) as Reducer<StateSchema>;
 
 	let keysToRemove: StateSchemaKey[] = [];
 
@@ -36,7 +37,7 @@ export function createReducerManager(
 
 			reducers[key] = reducer;
 
-			combinedReducer = combineReducers(reducers);
+			combinedReducer = combineReducers(reducers) as Reducer<StateSchema>;
 		},
 
 		remove: (key: StateSchemaKey) => {
@@ -48,7 +49,7 @@ export function createReducerManager(
 
 			keysToRemove.push(key);
 
-			combinedReducer = combineReducers(reducers);
+			combinedReducer = combineReducers(reducers) as Reducer<StateSchema>;
 		}
 	};
 }

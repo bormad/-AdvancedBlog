@@ -3,6 +3,8 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 export default ({ config }: { config: Configuration }) => {
 	const isDev = true;
+	config.module = config.module ?? { rules: [] };
+	config.module.rules = config.module.rules ?? [];
 	config.module.rules.push({
 		test: /\.s[ac]ss$/i,
 		use: [

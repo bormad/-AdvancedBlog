@@ -1,5 +1,5 @@
 import styles from './Modal.module.scss';
-import { classNames } from '../../../shared/lib/classNames/classNames';
+import { classNames, Mods } from '../../../shared/lib/classNames/classNames';
 import {
 	ReactNode,
 	useEffect,
@@ -26,7 +26,7 @@ export const Modal = (props: ModalProps) => {
 
 	const [isClosing, setIsClosing] = useState(false);
 	const [isMounted, setIsMounted] = useState(false);
-	const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	const { theme } = useTheme();
 
@@ -36,9 +36,9 @@ export const Modal = (props: ModalProps) => {
 		}
 	}, [isOpen]);
 
-	const mods: Record<string, boolean> = {
-		[styles.opened]: isOpen,
-		[styles.isClosing]: isClosing
+	const mods: Mods = {
+		[styles.opened]: !!isOpen,
+		[styles.isClosing]: !!isClosing
 	};
 
 	const closeHandler = useCallback(() => {
@@ -76,7 +76,9 @@ export const Modal = (props: ModalProps) => {
 		}
 
 		return () => {
-			clearTimeout(timerRef.current);
+			if (timerRef.current) {
+				clearTimeout(timerRef.current);
+			}
 			window.removeEventListener('keydown', onKeyDown);
 		};
 	}, [isOpen, onKeyDown]);

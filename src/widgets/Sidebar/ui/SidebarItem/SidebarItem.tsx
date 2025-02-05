@@ -11,6 +11,10 @@ interface SidebarItemProps {
 }
 
 export const SidebarItem = memo(({ item, collapsed }: SidebarItemProps) => {
+	if (!item || !item.Icon) {
+		return null;
+	}
+
 	return (
 		<AppLink
 			className={classNames(styles.item, { [styles.collapsed]: collapsed }, [
