@@ -19,6 +19,13 @@
 	background: none;
 }
 
+.outlineRed {
+	padding: 5px 10px;
+	border: 1px solid var(--red-dark);
+	color: var(--red-dark);
+	background: none;
+}
+
 .background {
 	background: var(--bg-color);
 	color: var(--primary-color);

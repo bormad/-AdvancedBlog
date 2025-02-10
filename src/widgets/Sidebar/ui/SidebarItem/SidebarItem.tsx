@@ -4,6 +4,8 @@ import { AppLink } from '../../../../shared/ui';
 import { AppLinkTheme } from '../../../../shared/ui/AppLink/AppLink';
 import { SidebarItemType } from '../../module/items';
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
+import { getUserAuthData } from '../../../../entities/User';
 
 interface SidebarItemProps {
 	item?: SidebarItemType;
@@ -11,7 +13,13 @@ interface SidebarItemProps {
 }
 
 export const SidebarItem = memo(({ item, collapsed }: SidebarItemProps) => {
+	const isAuth = useSelector(getUserAuthData);
+
 	if (!item || !item.Icon) {
+		return null;
+	}
+
+	if (item.authOnly && !isAuth) {
 		return null;
 	}
 

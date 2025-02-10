@@ -3,11 +3,15 @@ import { classNames } from '../../../shared/lib/classNames/classNames';
 import { InputHTMLAttributes, memo, useEffect, useRef, useState } from 'react';
 
 interface InputProps
-	extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
+	extends Omit<
+		InputHTMLAttributes<HTMLInputElement>,
+		'onChange' | 'value' | 'readOnly'
+	> {
 	className?: string;
-	value?: string;
+	value?: string | number;
 	onChange?: (value: string) => void;
 	autofocus?: boolean;
+	readonly?: boolean;
 }
 
 const InputComponent = (props: InputProps) => {
@@ -18,6 +22,7 @@ const InputComponent = (props: InputProps) => {
 		type = 'text',
 		placeholder,
 		autofocus,
+		readonly,
 		...otherProps
 	} = props;
 
@@ -51,7 +56,13 @@ const InputComponent = (props: InputProps) => {
 	};
 
 	return (
-		<div className={classNames(styles.inputWrapper, {}, [className])}>
+		<div
+			className={classNames(
+				styles.inputWrapper,
+				{ [styles.readonly]: !!readonly },
+				[className]
+			)}
+		>
 			{placeholder && (
 				<div className={styles.placeholder}>{placeholder + '>'}</div>
 			)}
@@ -65,9 +76,10 @@ const InputComponent = (props: InputProps) => {
 					onFocus={onFocus}
 					onBlur={onBlur}
 					onSelect={onSelect}
+					readOnly={readonly}
 					{...otherProps}
 				/>
-				{isFocused && (
+				{isFocused && !readonly && (
 					<span
 						className={styles.caret}
 						style={{ left: `${caretPosition * 9}px` }}

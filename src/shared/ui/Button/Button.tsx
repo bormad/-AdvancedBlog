@@ -5,6 +5,7 @@ import { ButtonHTMLAttributes, memo, ReactNode } from 'react';
 export enum ThemeButton {
 	CLEAR = 'clear',
 	OUTLINE = 'outline',
+	OUTLINE_RED = 'outlineRed',
 	BACKGRORUND = 'background',
 	BACKGRORUND_INVERTED = 'backgroundInverted'
 }

@@ -1,9 +1,9 @@
 import { StateSchema } from '../../../../../app/providers/StoreProvider/config/StateSchema';
 
-interface ProfileData {
+export interface ProfileData {
 	first: string;
 	lastname: string;
 }
 
-export const getProfileData = (state: StateSchema): ProfileData | undefined =>
-	state.profile?.data;
+export const getProfileData = (state: StateSchema): ProfileData =>
+	state.profile?.data as ProfileData;

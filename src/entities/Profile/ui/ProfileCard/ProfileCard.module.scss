@@ -1,16 +1,17 @@
-.profileCard {
-	padding: 20px;
-	border: 2px solid var(--inverted-bg-color);
-}
-
-.header {
-	display: flex;
-}
-
-.editBtn {
-	margin-left: auto;
-}
-
-.input {
+.input,
+.select {
 	margin-top: 10px;
+}
+
+.data {
+	border: 2px solid var(--inverted-bg-color);
+	padding: 20px;
+}
+
+.loader,
+.error {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 300px;
 }
