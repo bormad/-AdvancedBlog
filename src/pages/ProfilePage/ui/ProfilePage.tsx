@@ -19,6 +19,9 @@ import { getProfileReadonly } from '../../../entities/Profile/model/selectors/ge
 import { getProfileForm } from '../../../entities/Profile/model/selectors/getProfileForm/getProfileForm';
 import { Currency } from '../../../entities/Currency/model/types/currency';
 import { Country } from '../../../entities/Country/model/types/country';
+import { getProfileValidateError } from '../../../entities/Profile/model/selectors/getProfileValidateError/getProfileValidateError';
+import { Text } from '../../../shared/ui';
+import { TextTheme } from '../../../shared/ui/Text/Text';
 
 const reducers: ReducersList = {
 	profile: profileReducer
@@ -34,6 +37,7 @@ const ProfilePage = ({ className }: ProfilePageProps) => {
 	const error = useSelector(getProfileError);
 	const isLoading = useSelector(getProfileIsLoading);
 	const readonly = useSelector(getProfileReadonly);
+	const validateError = useSelector(getProfileValidateError);
 
 	useEffect(() => {
 		dispatch(fetchProfileData());
@@ -109,6 +113,10 @@ const ProfilePage = ({ className }: ProfilePageProps) => {
 					onChangeCurrency={onChangeCurrency}
 					onChangeCountry={onChangeCountry}
 				/>
+				{validateError?.length &&
+					validateError.map((err) => (
+						<Text theme={TextTheme.ERROR} title={err} key={err} />
+					))}
 			</div>
 		</DynamicModuleLoader>
 	);

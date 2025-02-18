@@ -102,6 +102,7 @@ export const ProfileCard = (props: ProfileCardProps) => {
 					placeholder='Ваш возраст'
 					onChange={onChangeAge}
 					readonly={readonly}
+					type='number'
 				/>
 				<Input
 					className={styles.input}
