@@ -22,6 +22,7 @@ import { Country } from '../../../entities/Country/model/types/country';
 import { getProfileValidateError } from '../../../entities/Profile/model/selectors/getProfileValidateError/getProfileValidateError';
 import { Text } from '../../../shared/ui';
 import { TextTheme } from '../../../shared/ui/Text/Text';
+import { useParams } from 'react-router-dom';
 
 const reducers: ReducersList = {
 	profile: profileReducer
@@ -32,6 +33,7 @@ interface ProfilePageProps {
 }
 
 const ProfilePage = ({ className }: ProfilePageProps) => {
+	const { id } = useParams<{ id: string }>();
 	const dispatch = useDispatch<AppDispatch>();
 	const form = useSelector(getProfileForm);
 	const error = useSelector(getProfileError);
@@ -40,8 +42,10 @@ const ProfilePage = ({ className }: ProfilePageProps) => {
 	const validateError = useSelector(getProfileValidateError);
 
 	useEffect(() => {
-		dispatch(fetchProfileData());
-	}, [dispatch]);
+		if (id) {
+			dispatch(fetchProfileData(id));
+		}
+	}, [dispatch, id]);
 
 	const onChangeFirstname = useCallback(
 		(value?: string) => {

@@ -3,8 +3,9 @@ import { classNames } from '../../../../shared/lib/classNames/classNames';
 import { memo } from 'react';
 import { Comment } from '../../model/types/comment';
 import { Avatar } from '../../../../shared/ui/Avatar/Avatar';
-import { Text } from '../../../../shared/ui';
+import { AppLink, Text } from '../../../../shared/ui';
 import { Skeleton } from '../../../../shared/ui/Skeleton/Skeleton';
+import { RoutePath } from '../../../../shared/config/routeConfig/routeConfig';
 
 interface CommentCardProps {
 	className?: string;
@@ -29,14 +30,17 @@ export const CommentCard = memo(
 
 		return (
 			<div className={classNames(styles.commentCard, {}, [className])}>
-				<div className={styles.header}>
+				<AppLink
+					to={`${RoutePath.profile}${comment.user.id}`}
+					className={styles.header}
+				>
 					{comment.user.avatar ? (
 						<Avatar size={30} src={comment.user.avatar} />
 					) : (
 						<Skeleton width={30} height={30} border='50%' />
 					)}
 					<Text className={styles.username} title={comment.user.username} />
-				</div>
+				</AppLink>
 				<Text className={styles.text} text={comment.text} />
 			</div>
 		);

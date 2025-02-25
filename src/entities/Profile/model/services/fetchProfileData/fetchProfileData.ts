@@ -10,11 +10,13 @@ export interface ThunkExtra {
 
 export const fetchProfileData = createAsyncThunk<
 	Profile,
-	void,
+	string,
 	{ rejectValue: string; extra: ThunkExtra }
->('profile/fetchProfileData', async (_, thunkAPI) => {
+>('profile/fetchProfileData', async (profileId, thunkAPI) => {
 	try {
-		const response = await thunkAPI.extra.api.get<Profile>('/profile');
+		const response = await thunkAPI.extra.api.get<Profile>(
+			`/profile/${profileId}`
+		);
 
 		return response.data;
 	} catch (error) {

@@ -21,6 +21,7 @@ export interface Profile {
 }
 
 export interface ProfileSchema {
+	id?: string;
 	data?: Profile;
 	form?: Profile;
 	isLoading: boolean;
