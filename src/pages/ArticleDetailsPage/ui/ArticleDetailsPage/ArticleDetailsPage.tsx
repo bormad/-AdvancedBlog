@@ -2,8 +2,8 @@ import styles from './ArticleDetailsPage.module.scss';
 import { classNames } from '../../../../shared/lib/classNames/classNames';
 import { memo, useCallback, useEffect } from 'react';
 import { ArticleDetails } from '../../../../entities/Article';
-import { useParams } from 'react-router-dom';
-import { Text } from '../../../../shared/ui';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Button, Text } from '../../../../shared/ui';
 import { CommentList } from '../../../../entities/Comment';
 import {
 	DynamicModuleLoader,
@@ -31,6 +31,7 @@ const reducers: ReducersList = {
 const ArticleDetailsPage = ({ className }: ArticleDetailsPageProps) => {
 	const { id } = useParams<{ id: string }>();
 	const dispatch = useDispatch<AppDispatch>();
+	const navigate = useNavigate();
 	const comments = useSelector(getArticleComments.selectAll);
 	const commentsIsLoading = useSelector(getArticleCommentsIsLoading);
 
@@ -40,6 +41,10 @@ const ArticleDetailsPage = ({ className }: ArticleDetailsPageProps) => {
 		},
 		[dispatch]
 	);
+
+	const onBackToList = useCallback(() => {
+		navigate('/articles');
+	}, [navigate]);
 
 	useEffect(() => {
 		dispatch(fetchCommentByArticleId(id));
@@ -56,6 +61,7 @@ const ArticleDetailsPage = ({ className }: ArticleDetailsPageProps) => {
 	return (
 		<DynamicModuleLoader reducers={reducers} removeAfterUnmount>
 			<div className={classNames(styles.ArticleDetailsPage, {}, [className])}>
+				<Button onClick={onBackToList}>Назад к списку</Button>
 				<ArticleDetails id={id} />
 				<Text title='Комментарии' className={styles.commentTitle} />
 				<AddCommentForm onSendComment={onSendComment} />
